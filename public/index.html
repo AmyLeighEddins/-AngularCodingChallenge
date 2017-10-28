@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html ng-app="GithubUserSearch">
+  <head>
+    <title>Github User Search</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="app/css/style.css" />
+    <script type="text/javascript" src="../node_modules/angular/angular.min.js"></script>
+    <script type="text/javascript" src="../node_modules/angular-route/angular-route.min.js"></script>
+    <script type="text/javascript" src="app/app.js"></script>
+    <script type="text/javascript" src="app/controllers/mainController.js"></script>
+    <script type="text/javascript" src="app/services/search.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+
+  <body>
+
+    <div ng-controller="MainController">
+      <drawer></drawer>
+      <content class="display-block">
+        <ng-view class="content display-block"></ng-view>
+        <div class="input-group">
+          <input class="form-control SearchBar" id="searchBox" ng-model="user" type="text" ng-keyup="$event.keyCode == 13 && searchForFollowers(user)" placeholder="Enter a Github user to see their followers.">
+          <span class="input-group-btn">
+            <button class="btn btn-defaul SearchButton" id="searchButton" ng-click="searchForFollowers(user)">
+              <span class="glyphicon glyphicon-search SearchIcon"></span>
+            </button>
+          </span>
+        </div>
+        <div ng-if="showFollowers">
+          <div class="pad largeText">Followers of {{searchedUser}}:</div>
+          <div ng-repeat="user in followers" class="pad">
+            <a href="{{user.html_url}}">
+              <img ng-src="{{user.avatar_url}}" id="img">
+            </a>
+            <div id="username" class="pad">{{user.login}}</div>
+          </div>
+        </div>
+        <div ng-if="showInvalid">
+          <div class="pad largeText">Please input a valid user.</div>
+        </div>
+        <div ng-if="showNoFollowers">
+          <div class="pad largeText">No followers for {{searchedUser}}.</div>
+        </div>
+        <div ng-if="showLoadMore" class="center pad">
+          <button type="button" class="btn btn-info" ng-click="loadMore()">Load More</button>
+        </div>
+      </content>
+    </div>
+
+  </body>
+
+</hmtl>

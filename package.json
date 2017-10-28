@@ -1,0 +1,43 @@
+{
+  "name": "shiptcodingchallenge",
+  "version": "1.0.0",
+  "description": "My submission for the Shipt Coding Challenge",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "installWebdriver": "node ./node_modules/protractor/bin/webdriver-manager update --standalone",
+    "start": "node server.js",
+    "test": "mocha test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AmyLeighEddins/ShiptCodingChallenge.git"
+  },
+  "keywords": [
+    "angularjs",
+    "javascript",
+    "selenium"
+  ],
+  "author": "Amy Eddins",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/AmyLeighEddins/ShiptCodingChallenge/issues"
+  },
+  "homepage": "https://github.com/AmyLeighEddins/ShiptCodingChallenge#readme",
+  "dependencies": {
+    "angular": "1.6.6",
+    "angular-mocks": "1.6.6",
+    "angular-route": "1.6.6",
+    "bootstrap": "3.3.7",
+    "express": "4.16.2",
+    "protractor": "3.0.0"
+  },
+  "engine": {
+    "node": "8.6.0"
+  },
+  "devDependencies": {
+    "github": "^12.0.1"
+  }
+}
