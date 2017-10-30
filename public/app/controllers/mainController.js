@@ -3,6 +3,7 @@
 app.controller('MainController', ['$scope', 'UserSearchService', function($scope, userSearchService){
     
     $scope.showFollowers = false; //don't show this on loading the page
+    var followersPerSearch = 30;
     var pageNum = 1; 
 
     // Search for the user entered's followers
@@ -20,7 +21,7 @@ app.controller('MainController', ['$scope', 'UserSearchService', function($scope
                         $scope.numFollowers = res; //save number of followers
                     }
                 });
-            userSearchService.searchForFollowers(user, pageNum) //get the first 30 followers
+            userSearchService.searchForFollowers(user, pageNum) //get the first followersPerSearch followers
                 .then(function(res) {
                     if(res.data.message === "Not Found") { //user not found
                         $scope.showInvalid = true;
@@ -30,7 +31,7 @@ app.controller('MainController', ['$scope', 'UserSearchService', function($scope
                             $scope.userFound = true;
                             $scope.showNoFollowers = true;
                         }
-                        else if(res.data.length > 0 && $scope.numFollowers <= 30) { //less than or equal to 30 followers, so we only need to get the followers once
+                        else if(res.data.length > 0 && $scope.numFollowers <= followersPerSearch) { //less than or equal to followersPerSearch, so we only need to get the followers once
                             $scope.userFound = true; 
                             $scope.followers = res.data;
                             $scope.showFollowers = true; 
@@ -52,15 +53,14 @@ app.controller('MainController', ['$scope', 'UserSearchService', function($scope
     // Load more followers
     $scope.loadMore = function() {
         pageNum++; //increment page number
-        var lower = 30 * pageNum - 30; //start of where we are on this page of followers display
-        var upper = 30 * pageNum; //max of where we are on this page of followers display
+        var lower = followersPerSearch * pageNum - followersPerSearch; //start of where we are on this page of followers display
+        var upper = followersPerSearch * pageNum; //max of where we are on this page of followers display
         if($scope.numFollowers <= upper) { //if we've reached the end of the followers do not show the load more button
             $scope.showLoadMore = false;
         }
-        userSearchService.searchForFollowers($scope.searchedUser, pageNum) //get the next 30 or less followers
+        userSearchService.searchForFollowers($scope.searchedUser, pageNum) //get the next followersPerSearch or less followers
             .then(function(res) {
-                $scope.followers = res.data;
-                document.body.scrollTop = document.documentElement.scrollTop = 0; //scroll to the top of the page
+                $scope.followers = $scope.followers.concat(res.data);//add the next set of followers to the page
             });
     }
 
