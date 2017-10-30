@@ -56,17 +56,17 @@ describe('MainController', function() {
   
     describe('$scope.searchForFollowers', function() {
 
-        it('sets $scope.showInvalid to true if user is blank', function(done) {
+        it('sets showInvalid to true if user is blank', function(done) {
             $scope.searchForFollowers('');
-            expect($scope.showInvalid).toEqual(true);
+            expect($scope.getShowInvalid()).toEqual(true);
             done();
         });
 
-        it('sets $scope.showInvalid to true if the user is invalid', function(done) {
+        it('sets showInvalid to true if the user is invalid', function(done) {
             $scope.searchForFollowers('fakeuser');
             $httpBackend.flush();
             $rootScope.$digest();
-            expect($scope.showInvalid).toEqual(true);
+            expect($scope.getShowInvalid()).toEqual(true);
             done();
         });
 
@@ -75,9 +75,9 @@ describe('MainController', function() {
             // $httpBackend.flush();
             // $scope.$digest();
             $rootScope.$digest();
-            expect($scope.numFollowers).toEqual(data.noFollowersUser.followers);
-            expect($scope.showNoFollowers).toEqual(true);
-            expect($scope.userFound).toEqual(true);
+            expect($scope.getNumFollowers()).toEqual(data.noFollowersUser.followers);
+            expect($scope.getShowNoFollowers()).toEqual(true);
+            expect($scope.getUserFound()).toEqual(true);
             done();
         });
 
@@ -85,10 +85,10 @@ describe('MainController', function() {
             $scope.searchForFollowers('amyleigheddins');
             $httpBackend.flush();
             $rootScope.$digest();
-            expect($scope.numFollowers).toEqual(data.lowFollowersUser.followers);
-            expect($scope.showFollowers).toEqual(true);
-            expect($scope.userFound).toEqual(true);
-            expect($scope.followers).toEqual(data.lowFollowersUserArray);
+            expect($scope.getNumFollowers()).toEqual(data.lowFollowersUser.followers);
+            expect($scope.getShowFollowers()).toEqual(true);
+            expect($scope.getUserFound()).toEqual(true);
+            expect($scope.getFollowers()).toEqual(data.lowFollowersUserArray);
             done();
         });
 
@@ -96,11 +96,11 @@ describe('MainController', function() {
             $scope.searchForFollowers('macressler');
             $rootScope.$digest();
             // $httpBackend.flush();
-            expect($scope.numFollowers).toEqual(data.highFollowersUser.followers);
-            expect($scope.showFollowers).toEqual(true);
-            expect($scope.userFound).toEqual(true);
-            expect($scope.showLoadMore).toEqual(true);
-            expect($scope.followers).toEqual(data.highFollowersUserArray);
+            expect($scope.getNumFollowers()).toEqual(data.highFollowersUser.followers);
+            expect($scope.getShowFollowers()).toEqual(true);
+            expect($scope.getUserFound()).toEqual(true);
+            expect($scope.getShowLoadMore()).toEqual(true);
+            expect($scope.getFollowers()).toEqual(data.highFollowersUserArray);
             done();
         });
     });
@@ -114,11 +114,11 @@ describe('MainController', function() {
             $httpBackend.flush();
             $scope.loadMore();
             $httpBackend.flush();
-            expect($scope.followers).toEqual(data.highFollowersUserArrayPage3);
+            expect($scope.getFollowers()).toEqual(data.highFollowersUserArrayPage3);
             done();
         });
 
-        it("should show the correct amount of pages and set $scope.showLoadMore to false if it is on the last page of followers", function(done) {
+        it("should show the correct amount of pages and set showLoadMore to false if it is on the last page of followers", function(done) {
             $scope.searchForFollowers('macressler');
             $httpBackend.flush();
             $scope.loadMore();
@@ -133,8 +133,8 @@ describe('MainController', function() {
             $httpBackend.flush();
             $scope.loadMore();
             $httpBackend.flush();
-            expect($scope.showLoadMore).toEqual(false);
-            expect($scope.followers).toEqual(data.highFollowersUserArrayPage7);
+            expect($scope.getShowLoadMore()).toEqual(false);
+            expect($scope.getFollowers()).toEqual(data.highFollowersUserArrayPage7);
             done();
         });
     });
