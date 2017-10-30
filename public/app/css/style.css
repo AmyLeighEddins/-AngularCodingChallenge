@@ -1,11 +1,11 @@
-#img {
+.img {
     border: 1px solid rgb(228, 227, 227); 
     border-radius: 4px; 
     padding: 5px; 
     width: 100px;
 }
 
-#username {
+.username {
     display: inline-block;
 }
 

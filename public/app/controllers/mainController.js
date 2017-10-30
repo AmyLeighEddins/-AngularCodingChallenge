@@ -19,29 +19,27 @@ app.controller('MainController', ['$scope', 'UserSearchService', function($scope
                     else {
                         $scope.userFound = true;
                         $scope.numFollowers = res; //save number of followers
-                    }
-                });
-            userSearchService.searchForFollowers(user, pageNum) //get the first followersPerSearch followers
-                .then(function(res) {
-                    if(res.data.message === "Not Found") { //user not found
-                        $scope.showInvalid = true;
-                    }
-                    else {
-                        if(res.data.length < 1) { //no followers
-                            $scope.userFound = true;
-                            $scope.showNoFollowers = true;
-                        }
-                        else if(res.data.length > 0 && $scope.numFollowers <= followersPerSearch) { //less than or equal to followersPerSearch, so we only need to get the followers once
-                            $scope.userFound = true; 
-                            $scope.followers = res.data;
-                            $scope.showFollowers = true; 
-                        }
-                        else {
-                            $scope.userFound = true;
-                            $scope.followers = res.data; 
-                            $scope.showFollowers = true; 
-                            $scope.showLoadMore = true; //show load more button
-                        }
+                        userSearchService.searchForFollowers(user, pageNum) //get the first followersPerSearch followers
+                            .then(function(res) {
+                                if(res.data.message === "Not Found") { //user not found
+                                    $scope.showInvalid = true;
+                                }
+                                else {
+                                    $scope.userFound = true;
+                                    if(res.data.length < 1) { //no followers
+                                        $scope.showNoFollowers = true;
+                                    }
+                                    else if(res.data.length > 0 && $scope.numFollowers <= followersPerSearch) { //less than or equal to followersPerSearch, so we only need to get the followers once
+                                        $scope.followers = res.data;
+                                        $scope.showFollowers = true; 
+                                    }
+                                    else {
+                                        $scope.followers = res.data; 
+                                        $scope.showFollowers = true; 
+                                        $scope.showLoadMore = true; //show load more button
+                                    }
+                                }
+                        });
                     }
                 });
         }
@@ -67,13 +65,13 @@ app.controller('MainController', ['$scope', 'UserSearchService', function($scope
     // Reset booleans and other variables
     function resetSearch() {
         pageNum = 1; 
-        $scope.followers = []; //followers array for display
-        $scope.userFound = false; //if user was found
-        $scope.showFollowers = false; //if we show the followers
-        $scope.showInvalid = false; //if user was invalid
-        $scope.showNoFollowers = false; //if user has no followers
-        $scope.showLoadMore = false; //if we need the load more button
-        $scope.numFollowers = 0; //total num of followers
+        $scope.followers = []; 
+        $scope.userFound = false; 
+        $scope.showFollowers = false; 
+        $scope.showInvalid = false; 
+        $scope.showNoFollowers = false; 
+        $scope.showLoadMore = false; 
+        $scope.numFollowers = 0; 
     }
 
 }]);
