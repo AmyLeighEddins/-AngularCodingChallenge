@@ -16,6 +16,8 @@ module.exports = function(config) {
   
       port: 3333,
 
+      singleRun: false,
+
       autoWatch: true,
   
       frameworks: ['jasmine', 'browserify'],
