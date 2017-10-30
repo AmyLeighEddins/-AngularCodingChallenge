@@ -26,7 +26,7 @@
           </span>
         </div>
         <div ng-if="showFollowers">
-          <div class="pad largeText">Followers of {{searchedUser}}:</div>
+          <div class="pad largeText">{{numFollowers}} followers of {{searchedUser}}:</div>
           <div ng-repeat="user in followers" class="pad">
             <a href="{{user.html_url}}">
               <img id="img" ng-src="{{user.avatar_url}}">
@@ -40,7 +40,7 @@
           <div class="pad largeText">Please input a valid user.</div>
         </div>
         <div ng-if="showNoFollowers">
-          <div class="pad largeText">No followers for {{searchedUser}}.</div>
+          <div class="pad largeText">No followers for {{searchedUser}}</div>
         </div>
         <div ng-if="showLoadMore" class="center pad">
           <button type="button" class="btn btn-info" ng-click="loadMore()">Load More</button>
