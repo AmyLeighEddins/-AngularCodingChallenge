@@ -7,7 +7,11 @@ LinkedIn: https://www.linkedin.com/in/amy-eddins/
 
 My single page website allows users to enter in a Github username and see the username's follower count and the first 30 followers. There is a "Load More" button at the bottom to load the next 30, and it will continue to appear until there are no more to show. It asks for a valid username if the field is blank or an invalid username is entered. If the username has no followers it tells the user. If you click on a follower's icon you can go to their Github profile. If you click on a follower's name it will search for their followers.
 
-I chose to use AngularJS for my project because that is what I used while on the Mobile development team at Command Alkon. Before that, I had no web development experience. I was on the team for less than 2 years, half the time working with a team that did not use Angular. I chose to host it with Heroku because that is what I am using with my own website amyeddins.com. I used Git on the command line to make my commits. I chose to do unit testing after first thinking about e2e testing since I have experience with protractor and selenium, but decided unit testing with Karma and Jasmine would be better. I had to learn how to mock api calls to complete the unit tests. 
+I chose to use AngularJS for my project because that is what I used while on the Mobile development team at Command Alkon. Before that, I had no web development experience. I was on the team for less than 2 years, half the time working with a team that did not use Angular. I chose to host it with Heroku because that is what I am using with my own website amyeddins.com. I used Git on the command line to make my commits. I chose to do unit testing after first thinking about e2e testing since I have experience with protractor and selenium, but decided unit testing with Karma and Jasmine would be better. I had to learn how to mock api calls and services to complete the unit tests. This is a part I had trouble with since I don't have experience with Angular unit testing. 
+
+Problems/roadblocks:
+
+    -Could not get the controller tests to work. This is the point I would ask for help from someone with more experience. The mock data wasn't working with the service like it was with the service tests, and when I tried to mock the service I couldn't get that working either since I ended up with the same error. So not all of my tests pass.  
 
 Added functionality:
 

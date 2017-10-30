@@ -4,52 +4,38 @@ var data = require("./mock/data.js");
 
 describe('MainController', function() {
 
-    var $controller, $httpBackend, $scope, controller, UserSearchService, q;
+    var $controller, $httpBackend, $scope, controller, UserSearchService, q, $rootScope;
 
     beforeEach(angular.mock.module('GithubUserSearch'));
-
-        // UserSearchService = {
-        //     searchForFollowers: function(user, page) {
-        //         var deferred = $q.defer();
-        //         deferred.resolve([]);
-        //         return deferred.promise;
-        //     },
-        //     getNumFollowers: function(user) {
-        //         var deferred = $q.defer();
-        //         deferred.resolve(0);
-        //         return deferred.promise;
-        //     }
-        // }
-
-        // // spyOn(UserSearchService, 'searchForFollowers').and.returnValue([]);
-        // // spyOn(UserSearchService, 'getNumFollowers').and.returnValue(0);
-        // $provide.value('UserSearchService', UserSearchService);
   
-
-  
-    beforeEach(inject(function(_$controller_, _$httpBackend_, _UserSearchService_, $q){
+    beforeEach(inject(function(_$controller_, _$httpBackend_, _$rootScope_, _UserSearchService_, $q){
 
         // The injector unwraps the underscores (_) from around the parameter names when matching
         UserSearchService = _UserSearchService_;
         $controller = _$controller_;
         $scope = {};
+        $rootScope = _$rootScope_;
         $httpBackend = _$httpBackend_;
         q = $q;
+        // var res = {
+        //     data: {
+        //         message: "Not Found"
+        //     }
+        // }
 
-        spyOn(UserSearchService, 'searchForFollowers').and.callFake(function(user, page) {
-            var deferred = $q.defer();
-            deferred.resolve([data.blankUser]);
-            return deferred.promise;
-        });
-        spyOn(UserSearchService, 'getNumFollowers').and.callFake(function(user) {
-            var deferred = $q.defer();
-            deferred.resolve(0);
-            return deferred.promise;
-        });
+        // spyOn(UserSearchService, 'searchForFollowers').and.callFake(function(user, page) {
+        //     var deferred = $q.defer();
+        //     deferred.resolve(res);
+        //     return deferred.promise;
+        // });
+        // spyOn(UserSearchService, 'getNumFollowers').and.callFake(function(user) {
+        //     var deferred = $q.defer();
+        //     deferred.resolve(0);
+        //     return deferred.promise;
+        // });
 
-        console.log(data.lowFollowersUser);
-
-        controller = $controller('MainController', { $scope: $scope, UserSearchService: UserSearchService});
+        // controller = $controller('MainController', { $scope: $scope, UserSearchService: UserSearchService});
+        controller = $controller('MainController', { $scope: $scope});
       
         //Tell the $httpBackend to respond with our mock data. 
         $httpBackend.whenGET('https://api.github.com/users/').respond(200, data.blankUser);
@@ -79,18 +65,16 @@ describe('MainController', function() {
         it('sets $scope.showInvalid to true if the user is invalid', function(done) {
             $scope.searchForFollowers('fakeuser');
             $httpBackend.flush();
+            $rootScope.$digest();
             expect($scope.showInvalid).toEqual(true);
             done();
         });
 
         it('sets correct data if the user has no followers', function(done) {
             $scope.searchForFollowers('ergerg');
-            // var deferred = q.defer();
-            // deferred.resolve($scope.searchForFollowers('ergerg'));
-            // deferred.promise;
-            $httpBackend.flush();
-            $browser.defer.flush();
+            // $httpBackend.flush();
             // $scope.$digest();
+            $rootScope.$digest();
             expect($scope.numFollowers).toEqual(data.noFollowersUser.followers);
             expect($scope.showNoFollowers).toEqual(true);
             expect($scope.userFound).toEqual(true);
@@ -100,6 +84,7 @@ describe('MainController', function() {
         it('sets correct data if the user has less than 30 followers', function(done) {
             $scope.searchForFollowers('amyleigheddins');
             $httpBackend.flush();
+            $rootScope.$digest();
             expect($scope.numFollowers).toEqual(data.lowFollowersUser.followers);
             expect($scope.showFollowers).toEqual(true);
             expect($scope.userFound).toEqual(true);
@@ -109,7 +94,8 @@ describe('MainController', function() {
 
         it('sets correct data if the user has a over 30 followers', function(done) {
             $scope.searchForFollowers('macressler');
-            $httpBackend.flush();
+            $rootScope.$digest();
+            // $httpBackend.flush();
             expect($scope.numFollowers).toEqual(data.highFollowersUser.followers);
             expect($scope.showFollowers).toEqual(true);
             expect($scope.userFound).toEqual(true);
