@@ -8,20 +8,19 @@
     <script type="text/javascript" src="../node_modules/angular-route/angular-route.min.js"></script>
     <script type="text/javascript" src="app/app.js"></script>
     <script type="text/javascript" src="app/controllers/mainController.js"></script>
-    <script type="text/javascript" src="app/services/search.js"></script>
+    <script type="text/javascript" src="app/services/userSearch.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
 
   <body>
 
     <div ng-controller="MainController">
-      <drawer></drawer>
       <content class="display-block">
         <ng-view class="content display-block"></ng-view>
         <div class="input-group">
-          <input class="form-control SearchBar" id="searchBox" ng-model="user" type="text" ng-keyup="$event.keyCode == 13 && searchForFollowers(user)" placeholder="Enter a Github user to see their followers.">
+          <input id="searchBox" class="form-control SearchBar" ng-model="user" type="text" ng-keyup="$event.keyCode == 13 && searchForFollowers(user)" placeholder="Enter a Github user to see their followers.">
           <span class="input-group-btn">
-            <button class="btn btn-defaul SearchButton" id="searchButton" ng-click="searchForFollowers(user)">
+            <button id="searchButton" class="btn btn-defaul SearchButton" ng-click="searchForFollowers(user)">
               <span class="glyphicon glyphicon-search SearchIcon"></span>
             </button>
           </span>
@@ -30,9 +29,11 @@
           <div class="pad largeText">Followers of {{searchedUser}}:</div>
           <div ng-repeat="user in followers" class="pad">
             <a href="{{user.html_url}}">
-              <img ng-src="{{user.avatar_url}}" id="img">
+              <img id="img" ng-src="{{user.avatar_url}}">
             </a>
-            <div id="username" class="pad">{{user.login}}</div>
+            <a>
+              <div id="username" class="pad" ng-click="searchForFollowers(user.login)">{{user.login}}</div>
+            </a>
           </div>
         </div>
         <div ng-if="showInvalid">

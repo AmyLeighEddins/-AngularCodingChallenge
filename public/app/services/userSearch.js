@@ -1,6 +1,6 @@
 'use strict';
 
-app.service('searchService', ['$http', function($http) {
+app.service('UserSearchService', ['$http', function($http) {
     // Search for all the user's followers using Github API.
     // Github API only returns 30 at a time.
     this.searchForFollowers = function(user, page) {
@@ -20,6 +20,6 @@ app.service('searchService', ['$http', function($http) {
             })
             .catch(function(err) {
                 return err;
-            })
+            });
     }
 }]);
