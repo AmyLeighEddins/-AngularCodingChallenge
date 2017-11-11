@@ -1,10 +1,10 @@
 'use strict';
 
-var data = require("./mock/data.js");
+const data = require("./mock/data.json");
 
 describe('UserSearchService', function() {
     
-    var UserSearchService, $httpBackend;
+    let UserSearchService, $httpBackend;
 
     beforeEach(angular.mock.module('GithubUserSearch'));
 

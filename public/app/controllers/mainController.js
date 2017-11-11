@@ -2,19 +2,19 @@
 
 app.controller('MainController', ['$scope', 'UserSearchService', function($scope, userSearchService){
     
-    var followersPerSearch = 30;
-    var pageNum = 1; 
-    var followers = []; 
-    var userFound = false; 
-    var showFollowers = false; 
-    var showInvalid = false; 
-    var showNoFollowers = false; 
-    var showLoadMore = false; 
-    var numFollowers = 0; 
-    var searchedUser;
+    const followersPerSearch = 30;
+    let pageNum = 1; 
+    let followers = []; 
+    let userFound = false; 
+    let showFollowers = false; 
+    let showInvalid = false; 
+    let showNoFollowers = false; 
+    let showLoadMore = false; 
+    let numFollowers = 0; 
+    let searchedUser;
 
     // Search for the user entered's followers
-    $scope.searchForFollowers = function(user) {
+    $scope.searchForFollowers = (user) => {
         resetSearch(); 
         searchedUser = user; //save entered user
         if(user){ //if user is not blank
@@ -26,48 +26,48 @@ app.controller('MainController', ['$scope', 'UserSearchService', function($scope
     }
 
     // Load more followers
-    $scope.loadMore = function() {
+    $scope.loadMore = () => {
         pageNum++; //increment page number
-        var lower = followersPerSearch * pageNum - followersPerSearch; //start of where we are on this page of followers display
-        var upper = followersPerSearch * pageNum; //max of where we are on this page of followers display
+        let lower = followersPerSearch * pageNum - followersPerSearch; //start of where we are on this page of followers display
+        let upper = followersPerSearch * pageNum; //max of where we are on this page of followers display
         if(numFollowers <= upper) { //if we've reached the end of the followers do not show the load more button
             showLoadMore = false;
         }
         userSearchService.searchForFollowers(searchedUser, pageNum) //get the next followersPerSearch or less followers
-            .then(function(res) {
+            .then((res) => {
                 followers = followers.concat(res.data);//add the next set of followers to the page
             });
     }
 
-    $scope.getFollowers = function() {
+    $scope.getFollowers = () => {
         return followers;
     }
 
-    $scope.getUserFound = function() {
+    $scope.getUserFound = () => {
         return userFound;
     }
 
-    $scope.getShowFollowers = function() {
+    $scope.getShowFollowers = () => {
         return showFollowers;
     }
 
-    $scope.getShowInvalid = function() {
+    $scope.getShowInvalid = () => {
         return showInvalid;
     }
 
-    $scope.getShowNoFollowers = function() {
+    $scope.getShowNoFollowers = () => {
         return showNoFollowers;
     }
 
-    $scope.getShowLoadMore = function() {
+    $scope.getShowLoadMore = () => {
         return showLoadMore;
     }
 
-    $scope.getNumFollowers = function() {
+    $scope.getNumFollowers = () => {
         return numFollowers;
     }
 
-    $scope.getSearchedUser = function() {
+    $scope.getSearchedUser = () => {
         return searchedUser;
     }
 
@@ -86,7 +86,7 @@ app.controller('MainController', ['$scope', 'UserSearchService', function($scope
     //Get the total number of followers, also calls getFollowers
     function getTotalFollowers() {
         userSearchService.getNumFollowers(searchedUser) //first get the total number of followers
-        .then(function(res) {
+        .then((res) =>  {
             if(res.message === "Not Found") { //user not found
                 showInvalid = true;
             }
@@ -101,7 +101,7 @@ app.controller('MainController', ['$scope', 'UserSearchService', function($scope
     // Get the user's followers
     function getFollowers() {
         userSearchService.searchForFollowers(searchedUser, pageNum) //get the first followersPerSearch followers
-        .then(function(res) {
+        .then((res) => {
             if(res.data.message === "Not Found") { //user not found
                 showInvalid = true;
             }

@@ -1,10 +1,10 @@
 'use strict';
 
-var data = require("./mock/data.js");
+const data = require("./mock/data.json");
 
 describe('MainController', function() {
 
-    var $controller, $httpBackend, $scope, controller, UserSearchService, q, $rootScope;
+    let $controller, $httpBackend, $scope, controller, UserSearchService, q, $rootScope;
 
     beforeEach(angular.mock.module('GithubUserSearch'));
   
@@ -17,25 +17,25 @@ describe('MainController', function() {
         $rootScope = _$rootScope_;
         $httpBackend = _$httpBackend_;
         q = $q;
-        // var res = {
-        //     data: {
-        //         message: "Not Found"
-        //     }
-        // }
+        let res = {
+            data: {
+                message: "Not Found"
+            }
+        }
 
-        // spyOn(UserSearchService, 'searchForFollowers').and.callFake(function(user, page) {
-        //     var deferred = $q.defer();
-        //     deferred.resolve(res);
-        //     return deferred.promise;
-        // });
-        // spyOn(UserSearchService, 'getNumFollowers').and.callFake(function(user) {
-        //     var deferred = $q.defer();
-        //     deferred.resolve(0);
-        //     return deferred.promise;
-        // });
+        spyOn(UserSearchService, 'searchForFollowers').and.callFake(function(user, page) {
+            let deferred = $q.defer();
+            deferred.resolve(res);
+            return deferred.promise;
+        });
+        spyOn(UserSearchService, 'getNumFollowers').and.callFake(function(user) {
+            let deferred = $q.defer();
+            deferred.resolve(0);
+            return deferred.promise;
+        });
 
-        // controller = $controller('MainController', { $scope: $scope, UserSearchService: UserSearchService});
-        controller = $controller('MainController', { $scope: $scope});
+        controller = $controller('MainController', { $scope: $scope, UserSearchService: UserSearchService});
+        // controller = $controller('MainController', { $scope: $scope});
       
         //Tell the $httpBackend to respond with our mock data. 
         $httpBackend.whenGET('https://api.github.com/users/').respond(200, data.blankUser);
@@ -63,11 +63,13 @@ describe('MainController', function() {
         });
 
         it('sets showInvalid to true if the user is invalid', function(done) {
-            $scope.searchForFollowers('fakeuser');
-            $httpBackend.flush();
-            $rootScope.$digest();
-            expect($scope.getShowInvalid()).toEqual(true);
-            done();
+            $scope.searchForFollowers('fakeuser').then(a => {
+                $httpBackend.flush();
+                $rootScope.$digest();
+                expect($scope.getShowInvalid()).toEqual(true);
+                done();
+            });
+            
         });
 
         it('sets correct data if the user has no followers', function(done) {
@@ -75,7 +77,7 @@ describe('MainController', function() {
             // $httpBackend.flush();
             // $scope.$digest();
             $rootScope.$digest();
-            expect($scope.getNumFollowers()).toEqual(data.noFollowersUser.followers);
+            expect($scope.getNumFollowers()).toEqual(data.noFollowersUser);
             expect($scope.getShowNoFollowers()).toEqual(true);
             expect($scope.getUserFound()).toEqual(true);
             done();
@@ -85,7 +87,7 @@ describe('MainController', function() {
             $scope.searchForFollowers('amyleigheddins');
             $httpBackend.flush();
             $rootScope.$digest();
-            expect($scope.getNumFollowers()).toEqual(data.lowFollowersUser.followers);
+            expect($scope.getNumFollowers()).toEqual(data.lowFollowersUser);
             expect($scope.getShowFollowers()).toEqual(true);
             expect($scope.getUserFound()).toEqual(true);
             expect($scope.getFollowers()).toEqual(data.lowFollowersUserArray);

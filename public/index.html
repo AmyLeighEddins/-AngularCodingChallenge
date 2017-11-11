@@ -15,37 +15,34 @@
   <body>
 
     <div ng-controller="MainController">
-      <content class="display-block">
-        <ng-view class="content display-block"></ng-view>
-        <div class="input-group">
-          <input id="searchBox" class="form-control SearchBar" ng-model="user" type="text" ng-keyup="$event.keyCode == 13 && searchForFollowers(user)" placeholder="Enter a Github user to see their followers.">
-          <span class="input-group-btn">
-            <button id="searchButton" class="btn btn-defaul SearchButton" ng-click="searchForFollowers(user)">
-              <span class="glyphicon glyphicon-search SearchIcon"></span>
-            </button>
-          </span>
+      <div class="input-group">
+        <input id="searchBox" class="form-control SearchBar" ng-model="user" type="text" ng-keyup="$event.keyCode == 13 && searchForFollowers(user)" placeholder="Enter a Github user to see their followers.">
+        <span class="input-group-btn">
+          <button id="searchButton" class="btn btn-defaul SearchButton" ng-click="searchForFollowers(user)">
+            <span class="glyphicon glyphicon-search SearchIcon"></span>
+          </button>
+        </span>
+      </div>
+      <div ng-if="getShowFollowers()">
+        <div class="pad largeText">{{getNumFollowers()}} followers of {{getSearchedUser()}}:</div>
+        <div ng-repeat="follower in getFollowers()" class="pad">
+          <a href="{{follower.html_url}}">
+            <img id="img" class="img" ng-src="{{follower.avatar_url}}">
+          </a>
+          <a>
+            <div id="username" class="username pad" ng-click="searchForFollowers(follower.login)">{{follower.login}}</div>
+          </a>
         </div>
-        <div ng-if="getShowFollowers()">
-          <div class="pad largeText">{{getNumFollowers()}} followers of {{getSearchedUser()}}:</div>
-          <div ng-repeat="follower in getFollowers()" class="pad">
-            <a href="{{follower.html_url}}">
-              <img id="img" class="img" ng-src="{{follower.avatar_url}}">
-            </a>
-            <a>
-              <div id="username" class="username pad" ng-click="searchForFollowers(follower.login)">{{follower.login}}</div>
-            </a>
-          </div>
-        </div>
-        <div ng-if="getShowInvalid()">
-          <div class="pad largeText">Please input a valid user.</div>
-        </div>
-        <div ng-if="getShowNoFollowers()">
-          <div class="pad largeText">No followers for {{getSearchedUser()}}</div>
-        </div>
-        <div ng-if="getShowLoadMore()" class="center pad">
-          <button type="button" class="btn btn-info" ng-click="loadMore()">Load More</button>
-        </div>
-      </content>
+      </div>
+      <div ng-if="getShowInvalid()">
+        <div class="pad largeText">Please input a valid user.</div>
+      </div>
+      <div ng-if="getShowNoFollowers()">
+        <div class="pad largeText">No followers for {{getSearchedUser()}}</div>
+      </div>
+      <div ng-if="getShowLoadMore()" class="center pad">
+        <button type="button" class="btn btn-info" ng-click="loadMore()">Load More</button>
+      </div>
     </div>
 
   </body>
