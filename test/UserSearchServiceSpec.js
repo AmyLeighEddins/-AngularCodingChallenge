@@ -81,28 +81,28 @@ describe('UserSearchService', function() {
     describe('Get number of followers', function() {
 
         it("should return not found if the user is blank", function() {
-            UserSearchService.getNumFollowers('').then(function() {
+            UserSearchService.getUser('').then(function() {
                 httpBackend.flush();
                 expect().toEqual(data.blankUser);
             });
         });
 
         it("should return not found if the user doesn't exist", function() {
-            UserSearchService.getNumFollowers('fakeuser').then(function() {
+            UserSearchService.getUser('fakeuser').then(function() {
                 httpBackend.flush();
                 expect().toEqual(data.notFoundUser);
             });
         });
 
         it("should return 0 if the user has no followers", function() {
-            UserSearchService.getNumFollowers('ergerg').then(function() {
+            UserSearchService.getUser('ergerg').then(function() {
                 httpBackend.flush();
                 expect().toEqual(data.noFollowersUser.followers);
             });
         });
 
         it("should return the total number of followers the user has", function() {
-            UserSearchService.getNumFollowers('macressler').then(function() {
+            UserSearchService.getUser('macressler').then(function() {
                 httpBackend.flush();
                 expect().toEqual(data.highFollowersUser.followers);
             });

@@ -4,23 +4,15 @@ app.service('UserSearchService', ['$http', function($http) {
     // Search for all the user's followers using Github API.
     // Github API only returns 30 at a time.
     const githubAPI = 'https://api.github.com/users/';
-    this.searchForFollowers = (user, page) => {
-        return $http.get(githubAPI + user) //get user data first
-            .then((res) => {
-                return $http.get(res.data.followers_url + "?page=" + page); //need page number to get different sets of followers
-            })
-            .catch((err) => {
-                return err;
+    this.searchForFollowers = function searchForFollowers(user, page) {
+        return this.getUser(user) //get user data first
+            .then((data) => {
+                return $http.get(data.followers_url + "?page=" + page); //need page number to get different sets of followers
             });
     }
     // Get the number of followers a Github user has.
-    this.getNumFollowers = (user) => {
+    this.getUser = function getUser(user) {
         return $http.get(githubAPI + user) //get user data first
-            .then((res) => {
-                return res.data.followers; //return follower count
-            })
-            .catch((err) => {
-                return err;
-            });
+            .then(res => res.data);
     }
 }]);

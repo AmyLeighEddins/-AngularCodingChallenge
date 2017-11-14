@@ -34,12 +34,12 @@
           </a>
         </div>
       </div>
-      <div ng-if="showInvalid">
-        <div class="pad largeText">Please input a valid user.</div>
+      <div ng-if="showError">
+        <div class="pad largeText">{{errorText}}</div>
       </div>
       <div ng-if="showNoFollowers">
         <div class="pad largeText">No followers for {{searchedUser}}</div>
-      </div>
+      </div> 
       <div ng-if="showLoadMore" class="center pad">
         <button type="button" class="btn btn-info" ng-click="loadMore()">Load More</button>
       </div>
