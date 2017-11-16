@@ -1,5 +1,4 @@
-# ShiptCodingChallenge
-My submission for the Shipt coding challenge.
+# AngularCodingChallenge
 
 Website hosted on Heroku: https://shipt-coding-challenge.herokuapp.com/
 Repo on Github: https://github.com/AmyLeighEddins/ShiptCodingChallenge
